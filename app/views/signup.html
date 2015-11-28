@@ -1,0 +1,65 @@
+<style type="text/css">
+  .css-form input.ng-invalid.ng-touched {
+    background-color: #FA787E;
+  }
+
+  .css-form input.ng-valid.ng-touched {
+    background-color: #78FA89;
+  }
+</style>
+<div>Signup</div>
+<div>יש לי פרופיל, אני רוצה להיכנס ולשרוף משהו. <a href="#/login">כניסה למערכת הפרופילים</a></div>
+<div ng-controller="SignupCtrl">
+  <form class="css-form" name="form" novalidate>
+    <div>
+      <label for="name">שם פרטי</label>
+      <input type="text" ng-model="user.firstName" name="firstName" required autofocus/>
+      <div ng-show="form.$submitted || form.firstName.$touched">
+        <div ng-show="form.firstName.$error.required">אז מה השם?</div>
+      </div>
+    </div>
+    <div>
+      <label for="name">שם משפחה</label>
+      <input type="text" ng-model="user.lastName" name="lastName" required />
+      <div ng-show="form.$submitted || form.lastName.$touched">
+        <div ng-show="form.lastName.$error.required">ומה שם משפחה?</div>
+      </div>
+    </div>
+    <div>
+      <label for="name">כתובת מייל</label>
+      <input type="email" ng-model="user.email" name="email" required />
+      <div ng-show="form.$submitted || form.email.$touched" ng-messages="form.email.$error">
+        <div ng-message="required">אנו חייבים את המייל גם</div>
+        <div ng-message="email">המייל לא תקין</div>
+      </div>
+    </div>
+    <div>
+      <label for="name">סיסמא</label>
+      <input type="password" ng-model="user.password1" name="password1" ng-minlength="8" required />
+      <div ng-show="form.$submitted || form.password1.$touched" ng-messages="form.password1.$error">
+        <div ng-message="required">נא להזין סיסמא</div>
+        <div ng-message="minlength">מינימום 8 תווים</div>
+      </div>
+    </div>
+    <div>
+      <label for="name">שוב סיסמא</label>
+      <input type="password" ng-model="user.password2" name="password2" match-password-with="password1" ng-minlength="8" required/>
+      <div ng-show="form.$submitted || form.password2.$touched" ng-messages="form.password2.$error">
+        <div ng-message="required">נא להזין סיסמא גם כאן</div>
+        <div ng-message="passwordsMatch">הסיסמאות לא זהות</div>
+        <div ng-message="minlength">מינימום 8 תווים</div>
+      </div>
+    </div>
+    <div>
+      <input type="checkbox" ng-model="user.legalConfirmed" name="legalConfirmed" required />
+      <label for="name">אני מסכים לתנאי השימוש באתר ומדיניות הפרטיות</label>
+      <div ng-show="form.$submitted">
+        <div ng-show="form.legalConfirmed.$error.required">לא ניתן להירשם בלי להסכים לתנאי השימוש</div>
+      </div>
+    </div>
+    <div>
+      <input type="button" value="צור פרופיל" ng-click="update(user)" ng-disabled="form.$invalid"></input>
+    </div>
+</form>
+<pre>{{user | json}}</pre>
+</div>

@@ -1,8 +1,8 @@
 <!doctype html>
-<html>
+<html dir="rtl" lang="he">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Midburn Registration</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -14,15 +14,14 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="registrationApp">
+  <body >
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
 
-    <div class="container">
-      <span>loaded</span>
+    <div class="container" ng-app="registrationApp">
       <div ng-view=""></div>
     </div>
 
@@ -53,10 +52,10 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/signup.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

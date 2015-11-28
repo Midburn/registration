@@ -8,10 +8,5 @@
  * Controller of the registrationApp
  */
 angular.module('registrationApp')
-  .controller('MainCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('LoginCtrl', function () {
   });
