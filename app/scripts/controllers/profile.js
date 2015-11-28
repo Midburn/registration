@@ -25,8 +25,19 @@ angular.module('registrationApp')
     };
   }])
   .controller('ProfileCtrl', ['$scope', '$routeParams', '$http', '$location', function ($scope, $routeParams, $http, $location) {
+    // handle steps
+    $scope.currentStep = 0;
+    $scope.nextStep = function () {
+      $scope.currentStep++;
+    };
+    $scope.previousStep = function () {
+      if ($scope.currentStep > 0) $scope.currentStep--;
+    };
+
+
+
+    // fake signup
     var fakeToken = '111';
-    // fake signup details
     var getRegistrationDetails = function (token) {
       if ($routeParams.registrationToken === fakeToken) {
         return {
