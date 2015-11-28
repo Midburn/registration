@@ -1,4 +1,13 @@
-<div>Profile details</div>
+<style type="text/css">
+  .css-form input.ng-invalid.ng-touched {
+    background-color: #FA787E;
+  }
+
+  .css-form input.ng-valid.ng-touched {
+    background-color: #78FA89;
+  }
+</style>
+<div>פרופיל ברנר</div>
 <div>יש לי פרופיל, אני רוצה להיכנס ולשרוף משהו. <a href="#/login">כניסה למערכת הפרופילים</a></div>
 <div ng-controller="ProfileCtrl">
   <!-- current step -->
@@ -6,55 +15,142 @@
   </section>
   <!-- Personal details -->
   <section>
-    <form class="css-form" name="form" novalidate>
+    <form class="css-form" name="detailsForm" novalidate>
       <div>
-        <label for="name">שם פרטי</label>
+        <label for="firstName">שם פרטי</label>
         <input type="text" ng-model="user.firstName" name="firstName" required autofocus/>
-        <div ng-show="form.$submitted || form.firstName.$touched">
-          <div ng-show="form.firstName.$error.required">אז מה השם?</div>
+        <div ng-show="detailsForm.$submitted || detailsForm.firstName.$touched">
+          <div ng-show="detailsForm.firstName.$error.required">אז מה השם?</div>
         </div>
       </div>
+
       <div>
-        <label for="name">שם משפחה</label>
+        <label for="lastName">שם משפחה</label>
         <input type="text" ng-model="user.lastName" name="lastName" required />
-        <div ng-show="form.$submitted || form.lastName.$touched">
-          <div ng-show="form.lastName.$error.required">ומה שם משפחה?</div>
+        <div ng-show="detailsForm.$submitted || detailsForm.lastName.$touched">
+          <div ng-show="detailsForm.lastName.$error.required">ומה שם משפחה?</div>
         </div>
       </div>
+
       <div>
-        <label for="name">כתובת מייל</label>
+        <label for="email">כתובת מייל</label>
         <input type="email" ng-model="user.email" name="email" required />
-        <div ng-show="form.$submitted || form.email.$touched" ng-messages="form.email.$error">
+        <div ng-show="detailsForm.$submitted || detailsForm.email.$touched" ng-messages="detailsForm.email.$error">
           <div ng-message="required">אנו חייבים את המייל גם</div>
           <div ng-message="email">המייל לא תקין</div>
         </div>
       </div>
+
       <div>
-        <label for="name">סיסמא</label>
+        <label for="password1">סיסמא</label>
         <input type="password" ng-model="user.password1" name="password1" ng-minlength="8" required />
-        <div ng-show="form.$submitted || form.password1.$touched" ng-messages="form.password1.$error">
+        <div ng-show="detailsForm.$submitted || detailsForm.password1.$touched" ng-messages="detailsForm.password1.$error">
           <div ng-message="required">נא להזין סיסמא</div>
           <div ng-message="minlength">מינימום 8 תווים</div>
         </div>
       </div>
+
       <div>
-        <label for="name">שוב סיסמא</label>
+        <label for="password1">אשר סיסמא</label>
         <input type="password" ng-model="user.password2" name="password2" match-password-with="password1" ng-minlength="8" required/>
-        <div ng-show="form.$submitted || form.password2.$touched" ng-messages="form.password2.$error">
+        <div ng-show="detailsForm.$submitted || detailsForm.password2.$touched" ng-messages="detailsForm.password2.$error">
           <div ng-message="required">נא להזין סיסמא גם כאן</div>
           <div ng-message="passwordsMatch">הסיסמאות לא זהות</div>
           <div ng-message="minlength">מינימום 8 תווים</div>
         </div>
       </div>
+      <div>רשום את הסיסמא של החשבון החדש פעמיים</div>
+
+      <div>
+        <label for="birthday">תאריך לידה</label>
+        <input type="date" name="birthday" ng-model="user.birthday" required />
+        <div>יצירה של פרופיל ברנר מותרת מגיל 18 ומעלה</div>
+      </div>
+
+      <div>
+        <label for="gender">מין</label>
+        <input type="radio" value="male" ng-model="user.gender" required /> זכר
+        <input type="radio" value="female" ng-model="user.gender" required /> נקבה
+      </div>
+
+      <div>
+        <label for="country">אזרחות</label>
+        <input ng-model="user.country" name="country" required country-select style="width:200px"/>
+      </div>
+
+      <div>
+        <label for="licenseId">מספר תעודת זהות או דרכון</label>
+        <input type="text" ng-model="user.licenseId" name="licenseId" />
+      </div>
+
+      <div>
+        <label for="phone">טלפון</label>
+        <input type="text" ng-model="user.phone" name="phone" />
+      </div>
+
+      <strong>כתובת למשלוח דואר</strong>
+      <div ng-init="user.postFirstName = user.firstName">
+        <label for="postFirstName">שם פרטי</label>
+        <input type="text" ng-model="user.postFirstName" name="postFirstName" required autofocus/>
+        <div ng-show="detailsForm.$submitted || detailsForm.postFirstName.$touched">
+          <div ng-show="detailsForm.postFirstName.$error.required">אז מה השם?</div>
+        </div>
+      </div>
+
+      <div ng-init="user.postLastName = user.lastName">
+        <label for="postLastName">שם משפחה</label>
+        <input type="text" ng-model="user.postLastName" name="postLastName" required />
+        <div ng-show="detailsForm.$submitted || detailsForm.postLastName.$touched">
+          <div ng-show="detailsForm.postLastName.$error.required">ומה שם משפחה?</div>
+        </div>
+      </div>
+
+      <div >
+        <label for="address">כתובת</label>
+        <input type="text" ng-model="user.address" name="address" required />
+        <div ng-show="detailsForm.$submitted || detailsForm.address.$touched">
+          <div ng-show="detailsForm.address.$error.required">נא לציין כתובת</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="postCountry">ארץ</label>
+        <input ng-model="user.postCountry" name="postCountry" required country-select style="width:200px"/>
+      </div>
+
+      <div >
+        <label for="city">עיר</label>
+        <input type="text" ng-model="user.city" name="city" required />
+        <div ng-show="detailsForm.$submitted || detailsForm.city.$touched">
+          <div ng-show="detailsForm.city.$error.required">נא לציין עיר</div>
+        </div>
+      </div>
+
+      <div >
+        <label for="zip">מיקוד</label>
+        <input type="text" ng-model="user.zip" name="zip" />
+      </div>
+
+      <div>
+        <label for="occupation">עיסוק</label>
+        <input type="text" ng-model="user.occupation" name="occupation" />
+      </div>
+
+      <div>
+        <label for="hobbies">תחביבים</label>
+        <input type="text" ng-model="user.hobbies" name="hobbies" />
+      </div>
+
       <div>
         <input type="checkbox" ng-model="user.legalConfirmed" name="legalConfirmed" required />
         <label for="name">אני מסכים לתנאי השימוש באתר ומדיניות הפרטיות</label>
-        <div ng-show="form.$submitted">
-          <div ng-show="form.legalConfirmed.$error.required">לא ניתן להירשם בלי להסכים לתנאי השימוש</div>
+        <div ng-show="detailsForm.$submitted">
+          <div ng-show="detailsForm.legalConfirmed.$error.required">לא ניתן להירשם בלי להסכים לתנאי השימוש</div>
         </div>
       </div>
+
       <div>
-        <input type="button" value="צור פרופיל" ng-click="update(user)" ng-disabled="form.$invalid"></input>
+        <input type="button" value="צור פרופיל" ng-click="update(user)" ng-disabled="detailsForm.$invalid"></input>
       </div>
     </form>
   </section>

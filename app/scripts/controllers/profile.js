@@ -13,7 +13,7 @@ angular.module('registrationApp')
       restrict: 'A',
       require: 'ngModel',
       link: function (scope, element, attrs, ctrl) {
-        var name = scope.form.password1.$name;
+        var name = scope.detailsForm.password1.$name;
         var firstPassword = $("[name=" + name +"]");
         element.add(firstPassword).on('keyup', function () {
           scope.$apply(function () {

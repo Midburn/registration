@@ -34,23 +34,6 @@
       </div>
     </div>
     <div>
-      <label for="name">סיסמא</label>
-      <input type="password" ng-model="user.password1" name="password1" ng-minlength="8" required />
-      <div ng-show="form.$submitted || form.password1.$touched" ng-messages="form.password1.$error">
-        <div ng-message="required">נא להזין סיסמא</div>
-        <div ng-message="minlength">מינימום 8 תווים</div>
-      </div>
-    </div>
-    <div>
-      <label for="name">שוב סיסמא</label>
-      <input type="password" ng-model="user.password2" name="password2" match-password-with="password1" ng-minlength="8" required/>
-      <div ng-show="form.$submitted || form.password2.$touched" ng-messages="form.password2.$error">
-        <div ng-message="required">נא להזין סיסמא גם כאן</div>
-        <div ng-message="passwordsMatch">הסיסמאות לא זהות</div>
-        <div ng-message="minlength">מינימום 8 תווים</div>
-      </div>
-    </div>
-    <div>
       <input type="checkbox" ng-model="user.legalConfirmed" name="legalConfirmed" required />
       <label for="name">אני מסכים לתנאי השימוש באתר ומדיניות הפרטיות</label>
       <div ng-show="form.$submitted">
