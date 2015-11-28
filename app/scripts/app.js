@@ -18,7 +18,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'angular-country-select'
+    'angular-country-select',
+    'ngLodash'
   ])
   .config(function ($routeProvider) {
     $routeProvider

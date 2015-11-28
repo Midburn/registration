@@ -6,6 +6,11 @@
   .css-form input.ng-valid.ng-touched {
     background-color: #78FA89;
   }
+
+  input[disabled] {
+    background-color: #cccccc;
+    color: white
+  }
 </style>
 <div>פרופיל ברנר</div>
 <div>יש לי פרופיל, אני רוצה להיכנס ולשרוף משהו. <a href="#/login">כניסה למערכת הפרופילים</a></div>
@@ -13,29 +18,31 @@
   <!-- current step -->
   <section>
   </section>
-  <form class="css-form" name="detailsForm" novalidate>
-    <!-- Personal details -->
-    <section ng-show="currentStep === 0">
+  <!-- Personal details -->
+  <section ng-show="currentStep === 0">
+    <h2>פרטים אישיים</h2>
+
+    <form class="css-form" name="{{forms.details.name}}" novalidate>
       <div>
         <label for="firstName">שם פרטי</label>
         <input type="text" ng-model="user.firstName" name="firstName" required autofocus/>
-        <div ng-show="detailsForm.$submitted || detailsForm.firstName.$touched">
-          <div ng-show="detailsForm.firstName.$error.required">אז מה השם?</div>
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().firstName.$touched">
+          <div ng-show="getCurrentForm().firstName.$error.required">אז מה השם?</div>
         </div>
       </div>
 
       <div>
         <label for="lastName">שם משפחה</label>
         <input type="text" ng-model="user.lastName" name="lastName" required />
-        <div ng-show="detailsForm.$submitted || detailsForm.lastName.$touched">
-          <div ng-show="detailsForm.lastName.$error.required">ומה שם משפחה?</div>
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().lastName.$touched">
+          <div ng-show="getCurrentForm().lastName.$error.required">ומה שם משפחה?</div>
         </div>
       </div>
 
       <div>
         <label for="email">כתובת מייל</label>
         <input type="email" ng-model="user.email" name="email" required />
-        <div ng-show="detailsForm.$submitted || detailsForm.email.$touched" ng-messages="detailsForm.email.$error">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().email.$touched" ng-messages="getCurrentForm().email.$error">
           <div ng-message="required">אנו חייבים את המייל גם</div>
           <div ng-message="email">המייל לא תקין</div>
         </div>
@@ -44,7 +51,7 @@
       <div>
         <label for="password1">סיסמא</label>
         <input type="password" ng-model="user.password1" name="password1" ng-minlength="8" required />
-        <div ng-show="detailsForm.$submitted || detailsForm.password1.$touched" ng-messages="detailsForm.password1.$error">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().password1.$touched" ng-messages="getCurrentForm().password1.$error">
           <div ng-message="required">נא להזין סיסמא</div>
           <div ng-message="minlength">מינימום 8 תווים</div>
         </div>
@@ -53,7 +60,7 @@
       <div>
         <label for="password1">אשר סיסמא</label>
         <input type="password" ng-model="user.password2" name="password2" match-password-with="password1" ng-minlength="8" required/>
-        <div ng-show="detailsForm.$submitted || detailsForm.password2.$touched" ng-messages="detailsForm.password2.$error">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().password2.$touched" ng-messages="getCurrentForm().password2.$error">
           <div ng-message="required">נא להזין סיסמא גם כאן</div>
           <div ng-message="passwordsMatch">הסיסמאות לא זהות</div>
           <div ng-message="minlength">מינימום 8 תווים</div>
@@ -92,24 +99,24 @@
       <div ng-init="user.postFirstName = user.firstName">
         <label for="postFirstName">שם פרטי</label>
         <input type="text" ng-model="user.postFirstName" name="postFirstName" required autofocus/>
-        <div ng-show="detailsForm.$submitted || detailsForm.postFirstName.$touched">
-          <div ng-show="detailsForm.postFirstName.$error.required">אז מה השם?</div>
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().postFirstName.$touched">
+          <div ng-show="getCurrentForm().postFirstName.$error.required">אז מה השם?</div>
         </div>
       </div>
 
       <div ng-init="user.postLastName = user.lastName">
         <label for="postLastName">שם משפחה</label>
         <input type="text" ng-model="user.postLastName" name="postLastName" required />
-        <div ng-show="detailsForm.$submitted || detailsForm.postLastName.$touched">
-          <div ng-show="detailsForm.postLastName.$error.required">ומה שם משפחה?</div>
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().postLastName.$touched">
+          <div ng-show="getCurrentForm().postLastName.$error.required">ומה שם משפחה?</div>
         </div>
       </div>
 
       <div>
         <label for="address">כתובת</label>
         <input type="text" ng-model="user.address" name="address" required />
-        <div ng-show="detailsForm.$submitted || detailsForm.address.$touched">
-          <div ng-show="detailsForm.address.$error.required">נא לציין כתובת</div>
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().address.$touched">
+          <div ng-show="getCurrentForm().address.$error.required">נא לציין כתובת</div>
         </div>
       </div>
 
@@ -121,8 +128,8 @@
       <div>
         <label for="city">עיר</label>
         <input type="text" ng-model="user.city" name="city" required />
-        <div ng-show="detailsForm.$submitted || detailsForm.city.$touched">
-          <div ng-show="detailsForm.city.$error.required">נא לציין עיר</div>
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().city.$touched">
+          <div ng-show="getCurrentForm().city.$error.required">נא לציין עיר</div>
         </div>
       </div>
 
@@ -140,11 +147,14 @@
         <label for="hobbies">תחביבים</label>
         <input type="text" ng-model="user.hobbies" name="hobbies" />
       </div>
-    </section>
+    </form>
+  </section>
 
-    <!-- Berner details -->
-    <section ng-show="currentStep === 1">
-      <h2>רקע ברנרי</h2>
+  <!-- Berner details -->
+  <section ng-show="currentStep === 1">
+    <h2>רקע ברנרי</h2>
+    <form class="css-form" name="{{forms.burner.name}}" novalidate>
+
       <div>
         <label for="playaName">שם פלאיה שלך (אם יש) </label>
         <input type="text" ng-model="user.playaName" name="playaName" />
@@ -164,24 +174,30 @@
       <div>
         <h5>איך אתם מתכננים להשתתף באירוע?</h5>
         <label for="themeCamp">מחנה נושא</label>
-        <input type="checkbox" name="themeCamp" ng-model="user.participationPlans.themeCamp" /><br/>
+        <input type="checkbox" name="themeCamp" ng-model="user.participationPlans.themeCamp" />
+        <br/>
         <label for="musicCamp">מחנה מוזיקה</label>
-        <input type="checkbox" name="musicCamp" ng-model="user.participationPlans.musicCamp" /><br/>
+        <input type="checkbox" name="musicCamp" ng-model="user.participationPlans.musicCamp" />
+        <br/>
         <label for="artInstallation">מיצב אמנות</label>
-        <input type="checkbox" name="artInstallation" ng-model="user.participationPlans.artInstallation" /><br/>
+        <input type="checkbox" name="artInstallation" ng-model="user.participationPlans.artInstallation" />
+        <br/>
         <label for="volunteering">התנדבות במהלך האירוע</label>
-        <input type="checkbox" name="volunteering" ng-model="user.participationPlans.volunteering" /><br/>
+        <input type="checkbox" name="volunteering" ng-model="user.participationPlans.volunteering" />
+        <br/>
         <label for="medicalVolunteering">התנדבות במרפאה</label>
-        <input type="checkbox" name="medicalVolunteering" ng-model="user.participationPlans.medicalVolunteering" /><br/>
+        <input type="checkbox" name="medicalVolunteering" ng-model="user.participationPlans.medicalVolunteering" />
+        <br/>
         <label for="unknown">לא החלטתי עדיין</label>
         <input type="checkbox" name="unknown" ng-model="user.participationPlans.unknown" />
       </div>
+    </form>
+  </section>
 
-    </section>
-
-    <!-- Other details -->
-    <section ng-show="currentStep === 2">
-      <h2>מידע חשוב</h2>
+  <!-- Other details -->
+  <section ng-show="currentStep === 2">
+    <h2>מידע חשוב</h2>
+    <form class="css-form" name="{{forms.skills.name}}" novalidate>
 
       <div>
         <label>האם יש לך הכשרה רפואית או פרא-רפואית? (חובש/ת, פראמדיק/ית, אח/אחות, רופא/ה</label>
@@ -198,64 +214,88 @@
       <div>
         <input type="checkbox" ng-model="user.policyConfirmed" name="policyConfirmed" required />
         <label for="policyConfirmed">קראתי את עשרת העקרונות</label>
-        <div ng-show="detailsForm.$submitted">
-          <div ng-show="detailsForm.policyConfirmed.$error.required">נא לקרוא ולסמן שקראתי</div>
+        <div ng-show="getCurrentForm().$submitted">
+          <div ng-show="getCurrentForm().policyConfirmed.$error.required">נא לקרוא ולסמן שקראתי</div>
         </div>
       </div>
 
       <div>
         <input type="checkbox" ng-model="user.fieldGuideConfirmed" name="fieldGuideConfirmed" required />
         <label for="fieldGuideConfirmed">קראתי את מדריך ההישרדות</label>
-        <div ng-show="detailsForm.$submitted">
-          <div ng-show="detailsForm.fieldGuideConfirmed.$error.required">נא לקרוא ולסמן שקראתי</div>
+        <div ng-show="getCurrentForm().$submitted">
+          <div ng-show="getCurrentForm().fieldGuideConfirmed.$error.required">נא לקרוא ולסמן שקראתי</div>
         </div>
       </div>
 
       <div>
         <input type="checkbox" ng-model="user.legalConfirmed" name="legalConfirmed" required />
         <label for="legalConfirmed">קראתי ואני מאשר את תנאי השימוש באתר ומדיניות פרטיות</label>
-        <div ng-show="detailsForm.$submitted">
-          <div ng-show="detailsForm.legalConfirmed.$error.required">נא לקרוא ולסמן שקראתי</div>
+        <div ng-show="getCurrentForm().$submitted">
+          <div ng-show="getCurrentForm().legalConfirmed.$error.required">נא לקרוא ולסמן שקראתי</div>
         </div>
       </div>
+    </form>
+  </section>
 
-    </section>
+  <!-- Legal -->
+  <section ng-show="currentStep === 3">
+    <form class="css-form" name="{{forms.terms.name}}" novalidate>
 
-    <!-- Legal -->
-    <section ng-show="currentStep === 3">
       <div>תקנון ותנאי השתתפות באירוע מידברן 2015 (יש לקרוא את כולו כדי להמשיך)</div>
       <textarea style="width:100%;" rows="40">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
       </textarea>
       <div>
-        <input type="checkbox" ng-model="user.legalConfirmed" name="legalConfirmed" required />
-        <label for="name">הנני מאשר כי קראתי והבנתי את תנאי התקנון ואני מתחייב לעמוד במלוא תנאיו</label>
-        <div ng-show="detailsForm.$submitted">
-          <div ng-show="detailsForm.legalConfirmed.$error.required">נא לקרוא את תנאי התקנון</div>
+        <input type="checkbox" ng-model="user.termsConfirmed" name="termsConfirmed" required />
+        <label for="termsConfirmed">הנני מאשר כי קראתי והבנתי את תנאי התקנון ואני מתחייב לעמוד במלוא תנאיו</label>
+        <div ng-show="getCurrentForm().$submitted">
+          <div ng-show="getCurrentForm().termsConfirmed.$error.required">נא לקרוא את תנאי התקנון</div>
         </div>
       </div>
-    </section>
+    </form>
+  </section>
+
+  <!-- navigation -->
+  <section>
     <div>
-      <input type="button" value="לעמוד הבא" ng-click="nextStep()" ng-show="currentStep < 3"></input>
+      <input type="button" value="לעמוד הבא" ng-click="nextStep()" ng-show="currentStep < 3" ng-disabled="getCurrentForm().$invalid"></input>
+    </div>
+    <div>
+      <input type="button" value="יאללה, נרשמנו!" ng-click="register()" ng-show="currentStep === 3" ng-disabled="getCurrentForm().$invalid"></input>
     </div>
     <div>
       <a ng-click="previousStep()" ng-show="currentStep > 0">לעמוד הקודם</a>
     </div>
-  </form>
-
+  </section>
+<pre>{{user | json}}</pre>
 </div>

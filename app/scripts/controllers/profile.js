@@ -24,17 +24,41 @@ angular.module('registrationApp')
       }
     };
   }])
-  .controller('ProfileCtrl', ['$scope', '$routeParams', '$http', '$location', function ($scope, $routeParams, $http, $location) {
+  .controller('ProfileCtrl',
+  [
+    '$scope',
+    '$routeParams',
+    '$location',
+    'lodash',
+    function ($scope, $routeParams, $location, _) {
     // handle steps
+    $scope._ = _;
     $scope.currentStep = 0;
+    $scope.forms = {
+      details: {name: 'detailsForm', index: 0},
+      burner: {name: 'burnerForm', index: 1},
+      skills: {name: 'skillsForm', index: 2},
+      terms: {name: 'termsForm', index: 3}
+    };
+
+    $scope.getCurrentForm = function () {
+      var formCode = $scope._.findKey($scope.forms,
+        function (item) {
+          if (item.index === $scope.currentStep)
+            return true
+        }
+      );
+      return $scope[$scope.forms[formCode].name];
+    };
+
     $scope.nextStep = function () {
       $scope.currentStep++;
     };
     $scope.previousStep = function () {
-      if ($scope.currentStep > 0) $scope.currentStep--;
+      if ($scope.currentStep > 0) {
+        $scope.currentStep--;
+      }
     };
-
-
 
     // fake signup
     var fakeToken = '111';
