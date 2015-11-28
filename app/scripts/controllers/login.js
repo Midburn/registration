@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name registrationApp.controller:MainCtrl
+ * @name registrationApp.controller:LoginCtrl
  * @description
- * # MainCtrl
- * Controller of the registrationApp
+ * # LoginCtrl
+ * Controller of the registrationApp - login screen
  */
 angular.module('registrationApp')
   .controller('LoginCtrl', function () {

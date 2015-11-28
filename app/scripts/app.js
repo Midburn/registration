@@ -21,6 +21,16 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
+      .when('/profile/:registrationToken', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl',
+        controllerAs: 'profile'
+      })
+      .when('/missingProfile', {
+        templateUrl: 'views/missingProfile.html',
+        controller: 'MissingProfileCtrl',
+        controllerAs: 'missingProfile'
+      })
       .when('/signup', {
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl',

@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name registrationApp.controller:MainCtrl
+ * @name registrationApp.controller:SignupCtrl
  * @description
- * # MainCtrl
- * Controller of the registrationApp
+ * # SignupCtrl
+ * Controller of the registrationApp - iniital sign up
  */
 angular.module('registrationApp')
   .directive('matchPasswordWith', [function() {
@@ -18,7 +18,6 @@ angular.module('registrationApp')
         element.add(firstPassword).on('keyup', function () {
           scope.$apply(function () {
             var v = element.val()===firstPassword.val();
-            console.log(element.val(), firstPassword.val())
             ctrl.$setValidity('passwordsMatch', v);
           });
         });
@@ -28,6 +27,6 @@ angular.module('registrationApp')
   .controller('SignupCtrl', ['$scope', function ($scope) {
     $scope.user = {};
     $scope.update = function (user) {
-      console.log(user);
+      console.log("Sending %o to signup API", user);
     }
   }]);
