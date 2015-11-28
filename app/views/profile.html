@@ -7,9 +7,24 @@
     background-color: #78FA89;
   }
 
-  input[disabled] {
+  /*input[disabled] {
     background-color: #cccccc;
+    color: white;
+  }*/
+  input.invalid {
+    background-color: red;
     color: white
+  }
+  input.valid {
+    background-color: green;
+    color: white
+  }
+  *[required]::before {
+    content: "*";
+    color: red;
+  }
+  .error {
+    color: red;
   }
 </style>
 <div>פרופיל ברנר</div>
@@ -26,7 +41,7 @@
       <div>
         <label for="firstName">שם פרטי</label>
         <input type="text" ng-model="user.firstName" name="firstName" required autofocus/>
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().firstName.$touched">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().firstName.$touched" class="error">
           <div ng-show="getCurrentForm().firstName.$error.required">אז מה השם?</div>
         </div>
       </div>
@@ -34,7 +49,7 @@
       <div>
         <label for="lastName">שם משפחה</label>
         <input type="text" ng-model="user.lastName" name="lastName" required />
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().lastName.$touched">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().lastName.$touched" class="error">
           <div ng-show="getCurrentForm().lastName.$error.required">ומה שם משפחה?</div>
         </div>
       </div>
@@ -42,7 +57,7 @@
       <div>
         <label for="email">כתובת מייל</label>
         <input type="email" ng-model="user.email" name="email" required />
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().email.$touched" ng-messages="getCurrentForm().email.$error">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().email.$touched" ng-messages="getCurrentForm().email.$error" class="error">
           <div ng-message="required">אנו חייבים את המייל גם</div>
           <div ng-message="email">המייל לא תקין</div>
         </div>
@@ -51,7 +66,7 @@
       <div>
         <label for="password1">סיסמא</label>
         <input type="password" ng-model="user.password1" name="password1" ng-minlength="8" required />
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().password1.$touched" ng-messages="getCurrentForm().password1.$error">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().password1.$touched" ng-messages="getCurrentForm().password1.$error" class="error">
           <div ng-message="required">נא להזין סיסמא</div>
           <div ng-message="minlength">מינימום 8 תווים</div>
         </div>
@@ -60,7 +75,7 @@
       <div>
         <label for="password1">אשר סיסמא</label>
         <input type="password" ng-model="user.password2" name="password2" match-password-with="password1" ng-minlength="8" required/>
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().password2.$touched" ng-messages="getCurrentForm().password2.$error">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().password2.$touched" ng-messages="getCurrentForm().password2.$error" class="error">
           <div ng-message="required">נא להזין סיסמא גם כאן</div>
           <div ng-message="passwordsMatch">הסיסמאות לא זהות</div>
           <div ng-message="minlength">מינימום 8 תווים</div>
@@ -99,7 +114,7 @@
       <div ng-init="user.postFirstName = user.firstName">
         <label for="postFirstName">שם פרטי</label>
         <input type="text" ng-model="user.postFirstName" name="postFirstName" required autofocus/>
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().postFirstName.$touched">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().postFirstName.$touched"  class="error">
           <div ng-show="getCurrentForm().postFirstName.$error.required">אז מה השם?</div>
         </div>
       </div>
@@ -107,7 +122,7 @@
       <div ng-init="user.postLastName = user.lastName">
         <label for="postLastName">שם משפחה</label>
         <input type="text" ng-model="user.postLastName" name="postLastName" required />
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().postLastName.$touched">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().postLastName.$touched"  class="error">
           <div ng-show="getCurrentForm().postLastName.$error.required">ומה שם משפחה?</div>
         </div>
       </div>
@@ -115,7 +130,7 @@
       <div>
         <label for="address">כתובת</label>
         <input type="text" ng-model="user.address" name="address" required />
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().address.$touched">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().address.$touched"  class="error">
           <div ng-show="getCurrentForm().address.$error.required">נא לציין כתובת</div>
         </div>
       </div>
@@ -128,7 +143,7 @@
       <div>
         <label for="city">עיר</label>
         <input type="text" ng-model="user.city" name="city" required />
-        <div ng-show="getCurrentForm().$submitted || getCurrentForm().city.$touched">
+        <div ng-show="getCurrentForm().$submitted || getCurrentForm().city.$touched"  class="error">
           <div ng-show="getCurrentForm().city.$error.required">נא לציין עיר</div>
         </div>
       </div>
@@ -288,7 +303,7 @@
   <!-- navigation -->
   <section>
     <div>
-      <input type="button" value="לעמוד הבא" ng-click="nextStep()" ng-show="currentStep < 3" ng-disabled="getCurrentForm().$invalid"></input>
+      <input type="button" value="לעמוד הבא" ng-click="nextStep()" ng-show="currentStep < 3" ng-class="{invalid: getCurrentForm().$invalid && getCurrentForm().$submitted, valid: getCurrentForm().$valid  }" ></input>
     </div>
     <div>
       <input type="button" value="יאללה, נרשמנו!" ng-click="register()" ng-show="currentStep === 3" ng-disabled="getCurrentForm().$invalid"></input>

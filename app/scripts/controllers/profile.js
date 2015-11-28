@@ -52,7 +52,9 @@ angular.module('registrationApp')
     };
 
     $scope.nextStep = function () {
-      $scope.currentStep++;
+      $scope.getCurrentForm().$submitted = true;
+      if ($scope.getCurrentForm().$valid)
+        $scope.currentStep++;
     };
     $scope.previousStep = function () {
       if ($scope.currentStep > 0) {
